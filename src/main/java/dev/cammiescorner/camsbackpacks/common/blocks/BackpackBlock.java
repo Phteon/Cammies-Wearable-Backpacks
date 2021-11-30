@@ -57,8 +57,14 @@ public class BackpackBlock extends BlockWithEntity implements Waterloggable {
 
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if(world.getBlockEntity(pos) instanceof BackpackBlockEntity backpack)
+		if(world.getBlockEntity(pos) instanceof BackpackBlockEntity backpack){
 			backpack.setName(stack.getName());
+			if(!world.isClient()) {
+				NbtCompound tag = stack.getOrCreateNbt();
+				backpack.readNbt(tag);
+				
+			}
+		}
 	}
 
 	@Override
